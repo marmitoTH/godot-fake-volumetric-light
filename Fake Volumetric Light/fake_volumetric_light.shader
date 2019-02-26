@@ -9,14 +9,14 @@ uniform float softness = 3.0;
 
 // Godot built in distance fade from camera and others geometry
 uniform float proximity_fade_distance = .5;
-uniform float distance_fade_min = 1;
-uniform float distance_fade_max = 2;
+uniform float distance_fade_min = 1.0;
+uniform float distance_fade_max = 2.0;
 
 varying vec3 obj_vertex; // Model Space Vertex
 
 void vertex ()
 {
-	obj_vertex = VERTEX; // Take object space vertex position before conversion
+	obj_vertex = VERTEX; // Take model space vertex position before conversion
 }
 
 void fragment ()
@@ -24,8 +24,8 @@ void fragment ()
 	// My Stuff
 	vec2 dust_uv = vec2(SCREEN_UV.x + dust_speed * TIME, SCREEN_UV.y);
 	vec4 dust_overlay = texture(dust, dust_uv);
-	float attenuation = clamp(1.0 + obj_vertex.y / intensity, 0, 1.0);
-	float soft_edge = clamp(pow(dot(NORMAL, normalize(VERTEX)), softness), 0, 1.0);
+	float attenuation = clamp(1.0 + obj_vertex.y / intensity, .0, 1.0);
+	float soft_edge = clamp(pow(dot(NORMAL, normalize(VERTEX)), softness), .0, 1.0);
 	
 	ALBEDO = dust_overlay.rgb * color.rgb * attenuation * soft_edge;
 	
